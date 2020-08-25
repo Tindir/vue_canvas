@@ -13,6 +13,9 @@ export const store = new Vuex.Store({
     mutations: {
         objAdd:(state, nObj) => {
             state.obj.push(nObj);         
+        },
+        objDel:(state, id) => {
+
         }
     },
     actions : {
@@ -29,7 +32,7 @@ export const store = new Vuex.Store({
         },
 
         add_obj: state=>{
-            
+
         }
     }  
 
