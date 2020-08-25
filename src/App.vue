@@ -31,7 +31,7 @@
  <div class="container" >
         <div class="row">
           <span>{{provider.x}}, {{provider.y}}</span>
-          <button @click="addBox">add box</button>
+          <button @click="addBox">add!!1111!!box</button>
           <button id="saveData" @click="saveData">nn</button>
         </div>
         <div class="row">
