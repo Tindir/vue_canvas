@@ -1,34 +1,14 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap">
       <a class="navbar-brand" href="#">Vuec\C</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-        </ul>
-        <button class="btn">Search</button>
+      <div class="navbar" id="navbarSupportedContent">
+        <button class="btn navbar-btn bg-light">Search</button>
       </div>
     </nav>
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-4 bg-dark sidebar">
+        <nav class="col-1 bg-dark sidebar-left">
           <div class="sidebar-sticky">
             <nav class="nav flex-column">
               <a class="nav-link active" href="#">Active</a>
@@ -37,18 +17,21 @@
               <a class="nav-link disabled" href="#">Disabled</a>
             </nav>
           </div>
-
         </nav>
         <div class="col">
-          <div class="card" style="width: 18rem;">
-  <img class="card-img-top"  alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-
+          <div class="row">
+            <a href="#" class="btn rounded-circle btn-primary btn-group-fab"><i class="fas fa-bars"></i></a>
+            <div class="card" style="width: 18rem;">
+              <img class="card-img-top" alt="Card image cap" />
+              <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p
+                  class="card-text"
+                >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -99,7 +82,7 @@ export default {
   border: 1px solid grey;
 }
 
-.sidebar {
+.sidebar-left{
   position: fixed;
   top: 0;
   bottom: -5;
@@ -116,5 +99,12 @@ export default {
   padding-top: 0.5rem;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.btn-group-fab {
+  position: fixed;
+  _width: 50px;
+  _height: auto;
+  right: 20px; top: 5em;
 }
 </style>
