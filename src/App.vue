@@ -1,61 +1,57 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">VueC</b-navbar-brand>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand" href="#">Vuec\C</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">
+              Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+        </ul>
+        <button class="btn">Search</button>
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-4 bg-dark sidebar">
+          <div class="sidebar-sticky">
+            <nav class="nav flex-column">
+              <a class="nav-link active" href="#">Active</a>
+              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </nav>
+          </div>
 
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-          <b-button size="sm" >
-            <b-icon icon="pencil-square"></b-icon>Save
-          </b-button>
-        </b-navbar-nav>
+        </nav>
+        <div class="col">
+          <div class="card" style="width: 18rem;">
+  <img class="card-img-top"  alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
 
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <b-navbar-nav right>
-            <b-button-group>
-              <b-button v-b-toggle.sidebar-right>object list</b-button>
-            </b-button-group>
-          </b-navbar-nav>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-    <b-overlay rounded="sm">
-      <b-sidebar id="sidebar-right" title="Object list" right shadow>
-        <b-card title="Card with overlay" >
-          <b-card-text>Laborum consequat non elit enim exercitation cillum.</b-card-text>
-          <b-card-text>Click the button to toggle the overlay:</b-card-text>
-        </b-card>
-      </b-sidebar>
-      <span>{{provider.x}}, {{provider.y}}</span>
-      <canvas
-        id="contex"
-        ref="select"
-        width="500"
-        height="600"
-        @mousemove="showCoordinates"
-        
-      ></canvas>
-      <!--<div class="container">
-        <div class="row">
-          <span>{{provider.x}}, {{provider.y}}</span>
-          <button @click="addBox">add box</button>
-          <button id="saveData" @click="saveData">nn</button>
         </div>
-        <div class="row">
-          <canvas
-            id="contex"
-            ref="select"
-            width="500"
-            height="600"
-            @mousemove="showCoordinates"
-            @mousedown="addBoxInPlace"
-          ></canvas>
-        </div>
-      </div>-->
-    </b-overlay>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -86,9 +82,9 @@ export default {
     showCoordinates: function (e) {
       this.provider.x = e.offsetX;
       this.provider.y = e.offsetY;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
@@ -101,5 +97,24 @@ export default {
 }
 #contex {
   border: 1px solid grey;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: -5;
+  left: 0;
+  z-index: 100;
+  padding: 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+.sidebar-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 48px;
+  height: calc(100vh - 48px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>
