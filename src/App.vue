@@ -2,13 +2,14 @@
   <div id="app">
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap">
       <a class="navbar-brand" href="#">Vuec\C</a>
-      <div class="navbar" id="navbarSupportedContent">
+      <div class="navbar">
         <button class="btn navbar-btn bg-light">Search</button>
       </div>
     </nav>
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-1 bg-dark sidebar-left">
+        <nav class=" sidebar-left
+         bg-dark h-100 fix_w">
           <div class="sidebar-sticky">
             <nav class="nav flex-column">
               <a class="nav-link active" href="#">Active</a>
@@ -18,21 +19,29 @@
             </nav>
           </div>
         </nav>
+
         <div class="col">
           <div class="row">
-            <a href="#" class="btn rounded-circle btn-primary btn-group-fab"><i class="fas fa-bars"></i></a>
-            <div class="card" style="width: 18rem;">
-              <img class="card-img-top" alt="Card image cap" />
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p
-                  class="card-text"
-                >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
+            <a href="#" class="btn rounded-circle btn-primary btn-group-fab" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              <i class="fas fa-bars"></i>
+            </a>
+            
           </div>
         </div>
+
+        <nav class="col bg-dark sidebar-right ml-auto h-100 collapse" id="collapseExample">
+          <a href="#" class="btn rounded-circle btn-primary btn-group-fab" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              <i class="fas fa-bars"></i>
+            </a>
+          <div class="sidebar-sticky">
+            <nav class="nav flex-column">
+              <a class="nav-link active" href="#">right</a>
+              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </nav>
+          </div>
+        </nav>
       </div>
     </div>
   </div>
@@ -82,11 +91,18 @@ export default {
   border: 1px solid grey;
 }
 
-.sidebar-left{
-  position: fixed;
+.sidebar-left {
   top: 0;
   bottom: -5;
   left: 0;
+  z-index: 100;
+  padding: 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+.sidebar-right {
+  top: 0;
+  bottom: -5;
+  right: 0;
   z-index: 100;
   padding: 0;
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
@@ -103,8 +119,12 @@ export default {
 
 .btn-group-fab {
   position: fixed;
-  _width: 50px;
-  _height: auto;
-  right: 20px; top: 5em;
+  right: 20px;
+  top: 5em;
+}
+.fix_w {
+  flex-grow: 0;
+
+
 }
 </style>
