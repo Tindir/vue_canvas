@@ -50,7 +50,7 @@
               data-toggle="collapse"
               data-target="#navbarNavRight"
               aria-controls="navbarNavRight"
-              aria-expanded="false"
+              aria-expanded="true"
               aria-label="Toggle navigation"
             >Toggleable via the navbar brand.</button>
           </li>
@@ -88,157 +88,21 @@
         <div class="col bg-primary" style="height:150px"></div>
       </div>
     </div>
-    <div id="navbarNavRight" class="collapse bg-info shadow sidebar_right __toggle">
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">Featured</div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
+    <div id="navbarNavRight" class="collapse  navbar-collapse-right-to-left bg-info shadow sidebar_right">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
       <div class="card">
         <div class="card-header">Featured</div>
         <div class="card-body">
@@ -302,7 +166,8 @@ export default {
   border: 1px solid grey;
 }
 
-#sidebar,#navbarNavRight {
+#sidebar,
+#navbarNavRight {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
@@ -321,13 +186,34 @@ export default {
 .sidebar_right {
   top: 0;
   right: 0;
+  padding: 15px;
 }
 
 .main {
   margin-left: 160px;
 }
 
-.toggle {
-  display: none;
+.card {
+  margin-bottom: 15px;
 }
+
+.navbar-collapse-right-to-left {
+    left: 50%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    _width: 100%;
+    transition: all 0.4s ease;
+    display: block;
+}
+.navbar-collapse-right-to-left.collapsing {
+    height: auto !important;
+    margin-left: 50%;
+    left: 50%;
+    transition: all 0.2s ease;
+}
+.navbar-collapse-right-to-left.show {
+    right: 0;
+}
+
 </style>
