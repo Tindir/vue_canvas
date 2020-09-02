@@ -88,7 +88,10 @@
         <div class="col bg-primary" style="height:150px"></div>
       </div>
     </div>
-    <div id="navbarNavRight" class="collapse  navbar-collapse-right-to-left bg-info shadow sidebar_right">
+    <div
+      id="navbarNavRight"
+      class="collapse navbar-collapse-right-to-left bg-info shadow-lg sidebar_right"
+    >
       <ul class="nav">
         <li class="nav-item">
           <a class="nav-link active" href="#">Active</a>
@@ -104,13 +107,18 @@
         </li>
       </ul>
       <div class="card">
-        <div class="card-header">Featured</div>
+        <!--<div class="card-header">Featured</div>-->
         <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <div class="row border rounded">
+            <div class="col-lg-3">
+              <div class="row">Y 62</div>
+              <div class="row ">26 m</div>
+            </div>
+            <div class="col-lg-9">
+              <div class="row "> addibas</div>
+              <div class="row">id:0000-0000-0000000000000</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -193,27 +201,29 @@ export default {
   margin-left: 160px;
 }
 
+.nav-item{
+  margin-right: 5px;
+}
 .card {
   margin-bottom: 15px;
 }
 
 .navbar-collapse-right-to-left {
-    left: 50%;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    _width: 100%;
-    transition: all 0.4s ease;
-    display: block;
+  left: 50%;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  _width: 100%;
+  transition: all 0.4s ease;
+  display: block;
 }
 .navbar-collapse-right-to-left.collapsing {
-    height: auto !important;
-    margin-left: 50%;
-    left: 50%;
-    transition: all 0.2s ease;
+  height: auto !important;
+  margin-left: 50%;
+  left: 50%;
+  transition: all 0.2s ease;
 }
 .navbar-collapse-right-to-left.show {
-    right: 0;
+  right: 0;
 }
-
 </style>
