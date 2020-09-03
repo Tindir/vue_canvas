@@ -52,7 +52,7 @@
               aria-controls="navbarNavRight"
               aria-expanded="true"
               aria-label="Toggle navigation"
-            >Toggleable via the navbar brand.</button>
+            >place list</button>
           </li>
         </ul>
       </div>
@@ -60,7 +60,7 @@
     <div id="sidebar" class="bg-light shadow sidebar_left">
       <ul class="nav flex-column text-white">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Active</a>
+          <a class="nav-link active" @click="add_sqr">Add square</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
@@ -74,7 +74,7 @@
       </ul>
     </div>
     <div class="main">
-      <div class="col">
+      <!--<div class="col">
         <div class="col bg-primary" style="height:150px"></div>
         <div class="col bg-secondary" style="height:150px"></div>
         <div class="col bg-primary" style="height:150px"></div>
@@ -86,7 +86,9 @@
         <div class="col bg-primary" style="height:150px"></div>
         <div class="col bg-secondary" style="height:150px"></div>
         <div class="col bg-primary" style="height:150px"></div>
-      </div>
+      </div>-->
+      <!--<img id='yolo' src="./assets/unnamed.jpg" alt="">-->
+      <canvas id="cvs_pln" width="1024" height="720" style="border:1px solid #000000;" ></canvas>
     </div>
     <div
       id="navbarNavRight"
@@ -106,19 +108,24 @@
           <a class="nav-link disabled" href="#">Disabled</a>
         </li>
       </ul>
-      <div class="card">
+      <div class="card" v-for='obj in ppc' :key='obj.id'>
         <!--<div class="card-header">Featured</div>-->
         <div class="card-body">
-          <div class="row border rounded">
+          <!--<div class="row border rounded">
             <div class="col-lg-3">
               <div class="row">Y 62</div>
-              <div class="row ">26 m</div>
+              <div class="row">26 m</div>
             </div>
             <div class="col-lg-9">
-              <div class="row "> addibas</div>
+              <div class="row">addibas</div>
               <div class="row">id:0000-0000-0000000000000</div>
             </div>
-          </div>
+          </div>-->
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">id {{obj.id}}</li>
+            <li class="list-group-item">{{obj.jj}}</li>
+            <li class="list-group-item">{{obj.jsonity}}</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -133,6 +140,8 @@ export default {
   name: "App",
   data: () => ({
     context: null,
+    ppc: [],
+    bgrd: '',
     provider: {
       x: 0,
       y: 0,
@@ -141,17 +150,45 @@ export default {
   }),
   components: {},
   mounted() {
-    //this.$refs.select.height = 500;
-    //this.$refs.select.width = 600;
-    //this.context = this.$refs.select.getContext("2d");
-    // this.ctx.fillRect(0,0,500,500);
-    const ref = this.$refs.select;
-    this.context = new fabric.Canvas(ref);
+    const ref = this.$refs.cvs_pln;
+    this.context = new fabric.Canvas("cvs_pln");
+
+    var bgdrI = new Image();
+    bgdrI.src = require(`../public/unnamed.jpg`);
+    this.bgrd = new fabric.Image(bgdrI,{
+        width: 800,
+        height: 70,
+        left: 1,
+        top: 1,
+        scaleX: 1,
+        scaleY: 1
+    });
+        
+    this.context.add(this.bgrd);
+    this.context.requestRenderAll();
+    
+
   },
   methods: {
     showCoordinates: function (e) {
       this.provider.x = e.offsetX;
       this.provider.y = e.offsetY;
+    },
+    add_sqr: function () {
+      var rect = new fabric.Rect({
+        top: 100,
+        left: 100,
+        width: 50,
+        height: 50,
+        fill: "#f55",
+      });
+      this.context.add(rect);
+      this.ppc.push({id: this.ppc.length + 1,
+                    jsonity: JSON.stringify(rect),
+                    jj: rect});
+    },
+    del_sqr:function() {
+      
     },
   },
 };
@@ -201,7 +238,7 @@ export default {
   margin-left: 160px;
 }
 
-.nav-item{
+.nav-item {
   margin-right: 5px;
 }
 .card {
