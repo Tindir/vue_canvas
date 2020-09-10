@@ -4,36 +4,71 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
-    state:{
-        obj:[]
+    state: {
+        planing: {}
     },
-    getters : {
-        
+    getters: {
+        getPlaningAll: state => {
+            return state.planing;
+        }
+    },
+    actions: {
+        preload(context) {
+            context.commit('preload');
+        }
     },
     mutations: {
-        objAdd:(state, nObj) => {
-            state.obj.push(nObj);         
-        },
-        objDel:(state, id) => {
+        preload(state) {
+            var p = [
+                {    id: 1,
+                        name: 'mall house',
 
-        }
-    },
-    actions : {
-        new_obj: state => {
-            var nObj = {
-                id: '00000000-0000-0000-0000-000000000000',
-                name: '',
-                areaOf: 0.0,
-                parentid: '00000000-0000-0000-0000-000000000000',
-                comments: '',
-                data: ''
+                        floors: [
+                            {
+                                id: 101,
+                                name: 'floor 1',
+                                img: '../public/unnamed.jpg',
+                                obj: []
+
+                            },
+                            {
+                                id: 102,
+                                name: 'floor 2',
+                                img: '../public/floor_2.jpg',
+                                obj: []
+
+                            }
+
+                        ]
+                    
+                },
+                {    id: 2,
+                    name: 'ware house',
+
+                    floors: [
+                        {
+                            id: 201,
+                            name: 'ware 1',
+                            img: '../public/unnamed.jpg',
+                            obj: []
+
+                        },
+                        {
+                            id: 202,
+                            name: 'ware 2',
+                            img: '../public/floor_2.jpg',
+                            obj: []
+
+                        }
+
+                    ]
+                
             }
-            return nObj;
-        },
+            ];
+            state.planing = p;
 
-        add_obj: state=>{
 
         }
-    }  
+    }
 
 })
