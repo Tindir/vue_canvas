@@ -141,6 +141,7 @@ export default {
       y: 720,
       bg: null,
       wp: null,
+      group: null,
     },
     context: null,
     curBuilding: {},
@@ -169,17 +170,61 @@ export default {
             fill: false,
           }),
         ].concat(this._objects);
-
-        // TODO repaint border on group resize event
-
-        // TODO remove border on group destroy
       };
     })(fabric.Group.prototype.initialize);
 
     const ref = this.$refs.cvs_pln;
-    this.context = new fabric.Canvas("cvs_pln");
+    this.context = new fabric.Canvas("cvs_pln", {
+      fireRightClick: true, // <-- enable firing of right click events
+      fireMiddleClick: true, // <-- enable firing of middle click events
+      stopContextMenu: true, // <--  prevent context menu from showing
+    });
     this.preparePane(this.context, this.parametres);
     this.$store.commit("preload");
+    this.context.on("mouse:down", (event) => {
+      if (event.button === 1) {
+        console.log(event);
+      }
+      if (event.button === 2) {
+        console.log(event);
+      }
+      if (event.button === 3) {
+        console.log(event);
+        //event.target.selectable = true;
+        this.context.setActiveObject(event.target);
+      }
+    });
+     
+    this.context.on("mouse:wheel", (opt) => {
+      
+      //console.log(event);
+      var canvas = this.context;
+      var delta = opt.e.deltaY*10;
+      console.log(opt.e.deltaY);
+      var zoom = canvas.getZoom();
+      zoom *= 0.999 ** delta;
+      if (zoom > 20) zoom = 20;
+      if (zoom < 0.01) zoom = 0.01;
+      canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+      opt.e.preventDefault();
+      opt.e.stopPropagation();
+//      var vpt = canvas.viewportTransform;
+//      if (zoom < 400 / 1000) {
+//        vpt[4] = 200 - (1000 * zoom) / 2;
+//        vpt[5] = 200 - (1000 * zoom) / 2;
+//      } else {
+//        if (vpt[4] >= 0) {
+//          vpt[4] = 0;
+//        } else if (vpt[4] < canvas.getWidth() - 1000 * zoom) {
+//          vpt[4] = canvas.getWidth() - 1000 * zoom;
+//        }
+//        if (vpt[5] >= 0) {
+//          vpt[5] = 0;
+//        } else if (vpt[5] < canvas.getHeight() - 1000 * zoom) {
+//          vpt[5] = canvas.getHeight() - 1000 * zoom;
+//        }
+//      }
+    });
   },
 
   computed: {
@@ -195,14 +240,13 @@ export default {
     preparePane: function (context, parametres) {
       context.setWidth(parametres.x);
       context.setHeight(parametres.y);
-      //context.renderOnAddRemove = true;
       context.setZoom(parametres.zoom);
 
       parametres.bg = new fabric.Group([], {
         title: "background",
         uid: "00000000-1000-1000-0000-000000000000",
-        width: parametres.x / 2,
-        height: parametres.y / 2,
+        width: parametres.x,
+        height: parametres.y,
         originX: "center",
         originY: "center",
         dirty: true,
@@ -211,23 +255,23 @@ export default {
       parametres.wp = new fabric.Group([], {
         title: "work space",
         uid: "00000000-9999-0000-0000-000000000000",
-        width: parametres.x / 2,
-        height: parametres.y / 2,
+        width: parametres.x,
+        height: parametres.y,
         originX: "center",
         originY: "center",
         selectable: false,
       });
-      var group = new fabric.Group([parametres.bg, parametres.wp], {
+      parametres.group = new fabric.Group([parametres.bg, parametres.wp], {
         title: "pane",
         uid: "00000000-0000-0000-0000-000000000000",
         left: 0,
         top: 0,
-        
+        selectable: false,
       });
-      context.add(group);
+
       context.add(parametres.bg);
       context.add(parametres.wp);
-      //console.log(context);
+      context.add(parametres.group);
     },
     setCurBuilding: function (building) {
       this.curBuilding = building;
@@ -246,20 +290,18 @@ export default {
       bg._objects = [];
 
       floorImg.onload = function () {
-        // alert(this.width + 'x' + this.height);
-
         var i = new fabric.Image(floorImg, {
           name: "bg_i",
           originX: "center",
           originY: "center",
           scaleX:
             floorImg.width > floorImg.height
-              ? p.x / floorImg.width / 2.3001
-              : p.y / floorImg.height / 2.3001,
+              ? p.x / floorImg.width
+              : p.y / floorImg.height,
           scaleY:
             floorImg.width > floorImg.height
-              ? p.x / floorImg.width / 2.3001
-              : p.y / floorImg.height / 2.3001,
+              ? p.x / floorImg.width
+              : p.y / floorImg.height,
         });
 
         bg.add(i);
@@ -267,6 +309,7 @@ export default {
 
       fb.requestRenderAll();
     },
+    
   },
 
   watch: {},
