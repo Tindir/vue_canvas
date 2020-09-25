@@ -30,9 +30,6 @@
                   @click="setCurBuilding(building)"
                 >{{building.name}}</option>
               </select>
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Button</button>
-              </div>
             </div>
           </li>
           <li class="nav-item">
@@ -138,6 +135,13 @@ export default {
   name: "App",
 
   data: () => ({
+    parametres: {
+      zoom: 1,
+      x: 1024,
+      y: 720,
+      bg: null,
+      wp: null,
+    },
     context: null,
     curBuilding: {},
     curFloor: null,
@@ -148,37 +152,34 @@ export default {
   created() {},
 
   mounted() {
+    fabric.Group.prototype.initialize = (function (initialize) {
+      return function () {
+        initialize.apply(this, arguments);
+        // prepend rect before=behind group objects
+        this._objects = [
+          new fabric.Rect({
+            // position from group center
+            left: -0.5 * this.width,
+            top: -0.5 * this.height,
+            width: this.width,
+            height: this.height,
+
+            stroke: "#00f",
+            strokeWidth: 2,
+            fill: false,
+          }),
+        ].concat(this._objects);
+
+        // TODO repaint border on group resize event
+
+        // TODO remove border on group destroy
+      };
+    })(fabric.Group.prototype.initialize);
+
     const ref = this.$refs.cvs_pln;
     this.context = new fabric.Canvas("cvs_pln");
-    this.context.setWidth(1024);
-    this.context.setHeight(720);
-    this.context.renderOnAddRemove = true;
-
+    this.preparePane(this.context, this.parametres);
     this.$store.commit("preload");
-
-    //var fuu = this.context;
-    //
-    //var srcI =;
-    //
-    // var pugImg = new Image();
-    // pugImg.src = srcI;
-    //var imgInstance = new fabric.Image(pugImg, {
-    //   left: 10,
-    //   top: 10,
-    //   height: 70,
-    //   width: 124,
-    // });
-    //this.context.add(imgInstance);
-
-    //pugImg.onload = function () {
-    //           //fuu.setHeight(500);
-    //           //fuu.setWidth(500);
-    //           fuu.setBackgroundImage(srcI, fuu.renderAll.bind(fuu));
-    //       };
-    //fabric.Image.fromURL(srcI, function (img) {
-    //  img.set({ top: 0, left: 0, angle: 0, opacity: 1, selectable: true });
-    //  fuu.add(img);
-    //});
   },
 
   computed: {
@@ -191,6 +192,43 @@ export default {
   },
 
   methods: {
+    preparePane: function (context, parametres) {
+      context.setWidth(parametres.x);
+      context.setHeight(parametres.y);
+      //context.renderOnAddRemove = true;
+      context.setZoom(parametres.zoom);
+
+      parametres.bg = new fabric.Group([], {
+        title: "background",
+        uid: "00000000-1000-1000-0000-000000000000",
+        width: parametres.x / 2,
+        height: parametres.y / 2,
+        originX: "center",
+        originY: "center",
+        dirty: true,
+        selectable: false,
+      });
+      parametres.wp = new fabric.Group([], {
+        title: "work space",
+        uid: "00000000-9999-0000-0000-000000000000",
+        width: parametres.x / 2,
+        height: parametres.y / 2,
+        originX: "center",
+        originY: "center",
+        selectable: false,
+      });
+      var group = new fabric.Group([parametres.bg, parametres.wp], {
+        title: "pane",
+        uid: "00000000-0000-0000-0000-000000000000",
+        left: 0,
+        top: 0,
+        
+      });
+      context.add(group);
+      context.add(parametres.bg);
+      context.add(parametres.wp);
+      //console.log(context);
+    },
     setCurBuilding: function (building) {
       this.curBuilding = building;
     },
@@ -199,26 +237,39 @@ export default {
       this.loadFloorData(floor);
     },
     loadFloorData: function (floor) {
-      let fb = this.context;
+      var fb = this.context;
+      var p = this.parametres;
+      var bg = p.bg;
       var floorImg = new Image();
       floorImg.src = floor.img;
-      //var imgInstance = new fabric.Image(floorImg, {
-      //  left: 1,
-      //  top: 1,
-      //  height: 1204,
-      //  width: 720,
-      //});
-      //this.context.add(imgInstance);
+
+      bg._objects = [];
 
       floorImg.onload = function () {
-        fb.setBackgroundImage(floor.img, fb.renderAll.bind(fb));
+        // alert(this.width + 'x' + this.height);
+
+        var i = new fabric.Image(floorImg, {
+          name: "bg_i",
+          originX: "center",
+          originY: "center",
+          scaleX:
+            floorImg.width > floorImg.height
+              ? p.x / floorImg.width / 2.3001
+              : p.y / floorImg.height / 2.3001,
+          scaleY:
+            floorImg.width > floorImg.height
+              ? p.x / floorImg.width / 2.3001
+              : p.y / floorImg.height / 2.3001,
+        });
+
+        bg.add(i);
       };
-      fabric.Image.fromURL(floor.img, function (img) {
-        img.set({ top: 0, left: 0, angle: 0, opacity: 1, selectable: true });
-        fb.add(img);
-      });
+
+      fb.requestRenderAll();
     },
   },
+
+  watch: {},
 };
 </script>
 
