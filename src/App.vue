@@ -14,7 +14,10 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navbarNavDropdown"
+      >
         <ul class="nav">
           <li class="nav-item">
             <div class="input-group">
@@ -28,7 +31,9 @@
                   v-for="building in planing"
                   :key="building.id"
                   @click="setCurBuilding(building)"
-                >{{building.name}}</option>
+                >
+                  {{ building.name }}
+                </option>
               </select>
             </div>
           </li>
@@ -40,7 +45,9 @@
                   v-for="floor in floorList"
                   :key="floor.id"
                   @click="setCurFloor(floor)"
-                >{{floor.name}}</option>
+                >
+                  {{ floor.name }}
+                </option>
               </select>
               <!--<option value="1">One</option>
                 <option value="2">Two</option>
@@ -56,7 +63,9 @@
               aria-controls="navbarNavRight"
               aria-expanded="true"
               aria-label="Toggle navigation"
-            >place list</button>
+            >
+              place list
+            </button>
           </li>
         </ul>
       </div>
@@ -64,16 +73,57 @@
     <div id="sidebar" class="bg-light shadow sidebar_left">
       <ul class="nav flex-column text-white">
         <li class="nav-item">
-          <button class="btn btn-outline-primary">tool 1</button>
+          <button
+            class="btn btn-outline-primary"
+            @click="
+              paneOperation_zoom(context, {
+                e: {
+                  deltaY: 6,
+                  offsetX: parametres.x / 2,
+                  offsetY: parametres.y / 2,
+                },
+              })
+            "
+          >
+            zoom out
+          </button>
         </li>
         <li class="nav-item">
-          <button class="btn btn-outline-primary">tool 2</button>
+          <button
+            class="btn btn-outline-primary"
+            @click="
+              paneOperation_zoom(parametres.bg, {
+                e: {
+                  deltaY: -6,
+                  offsetX: parametres.x / 2,
+                  offsetY: parametres.y / 2,
+                },
+              })
+            "
+          >
+            zoom in
+          </button>
         </li>
         <li class="nav-item">
-          <button class="btn btn-outline-primary">tool 3</button>
+          <button
+            class="btn btn-outline-primary"
+            @click="
+              paneOperation_rotate(parametres.bg, {
+                e: {
+                  deltaY: -6,
+                  offsetX: parametres.x / 2,
+                  offsetY: parametres.y / 2,
+                },
+              })
+            "
+          >
+            rotate right
+          </button>
         </li>
         <li class="nav-item">
-          <button class="btn btn-outline-primary">Disabled</button>
+          <button class="btn btn-outline-primary" @click="ddd()">
+            Disabled
+          </button>
         </li>
       </ul>
     </div>
@@ -92,7 +142,7 @@
         <div class="col bg-primary" style="height:150px"></div>
       </div>-->
       <div class="container">
-        <canvas id="cvs_pln" style="border:1px solid #000000;"></canvas>
+        <canvas id="cvs_pln" style="border: 1px solid #000000"> </canvas>
       </div>
     </div>
     <div
@@ -142,6 +192,17 @@ export default {
       bg: null,
       wp: null,
       group: null,
+      Drager: {
+        isDrag: false,
+        x: 0,
+        y: 0,
+      },
+      Rotator: {
+        isRotate: false,
+        ang: 0,
+        x: 0,
+        y: 0,
+      },
     },
     context: null,
     curBuilding: {},
@@ -178,52 +239,69 @@ export default {
       fireRightClick: true, // <-- enable firing of right click events
       fireMiddleClick: true, // <-- enable firing of middle click events
       stopContextMenu: true, // <--  prevent context menu from showing
+      renderOnAddRemove: true,
     });
     this.preparePane(this.context, this.parametres);
     this.$store.commit("preload");
     this.context.on("mouse:down", (event) => {
-      if (event.button === 1) {
+      //if (event.button === 1) {
+      //  console.log(event);
+      //}
+      if (event.button === 3) {
         console.log(event);
+        this.parametres.Drager = {
+          isDrag: true,
+          dx: 0,
+          dy: 0,
+          x: 0,
+          y: 0,
+        };
       }
       if (event.button === 2) {
         console.log(event);
-      }
-      if (event.button === 3) {
-        console.log(event);
-        //event.target.selectable = true;
-        this.context.setActiveObject(event.target);
+        this.parametres.Rotator = {
+          isRotate: true,
+          ang: 0,
+          x: 0,
+          y: 0,
+        };
       }
     });
-     
-    this.context.on("mouse:wheel", (opt) => {
-      
-      //console.log(event);
-      var canvas = this.context;
-      var delta = opt.e.deltaY*10;
-      console.log(opt.e.deltaY);
-      var zoom = canvas.getZoom();
-      zoom *= 0.999 ** delta;
-      if (zoom > 20) zoom = 20;
-      if (zoom < 0.01) zoom = 0.01;
-      canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
-      opt.e.preventDefault();
-      opt.e.stopPropagation();
-//      var vpt = canvas.viewportTransform;
-//      if (zoom < 400 / 1000) {
-//        vpt[4] = 200 - (1000 * zoom) / 2;
-//        vpt[5] = 200 - (1000 * zoom) / 2;
-//      } else {
-//        if (vpt[4] >= 0) {
-//          vpt[4] = 0;
-//        } else if (vpt[4] < canvas.getWidth() - 1000 * zoom) {
-//          vpt[4] = canvas.getWidth() - 1000 * zoom;
-//        }
-//        if (vpt[5] >= 0) {
-//          vpt[5] = 0;
-//        } else if (vpt[5] < canvas.getHeight() - 1000 * zoom) {
-//          vpt[5] = canvas.getHeight() - 1000 * zoom;
-//        }
-//      }
+    this.context.on("mouse:up", (event) => {
+      //if (event.button === 1) {
+      //  console.log(event);
+      //}
+      if (event.button === 3) {
+        console.log(event);
+        this.parametres.Drager = {
+          isDrag: false,
+          dx: 0,
+          dy: 0,
+          x: 0,
+          y: 0,
+        };
+      }
+      if (event.button === 2) {
+        console.log(event);
+         this.parametres.Rotator = {
+          isRotate: false,
+          ang: 0,
+          x: 0,
+          y: 0,
+        };
+      }
+    });
+    this.context.on("mouse:move", (event) => {
+      if (this.parametres.Drager.isDrag) {
+        this.paneOperation_drag(this.parametres.bg, event);
+      }
+      if(this.parametres.Rotator.isRotate){
+        this.paneOperation_rotate(this.parametres.bg, event);
+      }
+    });
+
+    this.context.on("mouse:wheel", (event) => {
+      this.paneOperation_zoom(this.context, event);
     });
   },
 
@@ -237,6 +315,40 @@ export default {
   },
 
   methods: {
+    paneOperation_zoom: function (context, event) {
+      var delta = event.e.deltaY * 10;
+      var zoom = this.context.getZoom();
+      zoom *= 0.999 ** delta;
+      if (zoom > 20) zoom = 20;
+      if (zoom < 0.01) zoom = 0.01;
+      this.context.zoomToPoint(
+        { x: event.e.offsetX, y: event.e.offsetY },
+        zoom
+      );
+      event.e.preventDefault();
+      event.e.stopPropagation();
+    },
+    paneOperation_rotate: function (obj, event) {
+      console.log(event);
+      
+      let ang = obj.angel;
+      ang = ang + 15;
+      obj.angle = obj.angle + 15;
+      this.context.requestRenderAll();
+    },
+    paneOperation_drag: function (obj, event) {
+      let Drager = this.parametres.Drager;
+
+      Drager.dx = Drager.x === 0 ? 0 : Drager.x - event.e.clientX;
+      Drager.dy = Drager.y === 0 ? 0 : Drager.y - event.e.clientY;
+      Drager.x = event.e.clientX;
+      Drager.y = event.e.clientY;
+
+      obj.left = this.parametres.bg.left + -1 * Drager.dx;
+      obj.top = this.parametres.bg.top - Drager.dy;
+      obj.setCoords();
+      this.context.requestRenderAll();
+    },
     preparePane: function (context, parametres) {
       context.setWidth(parametres.x);
       context.setHeight(parametres.y);
@@ -245,33 +357,17 @@ export default {
       parametres.bg = new fabric.Group([], {
         title: "background",
         uid: "00000000-1000-1000-0000-000000000000",
+        left: parametres.x / 2,
+        top: parametres.y / 2,
         width: parametres.x,
         height: parametres.y,
         originX: "center",
         originY: "center",
-        dirty: true,
-        selectable: false,
-      });
-      parametres.wp = new fabric.Group([], {
-        title: "work space",
-        uid: "00000000-9999-0000-0000-000000000000",
-        width: parametres.x,
-        height: parametres.y,
-        originX: "center",
-        originY: "center",
-        selectable: false,
-      });
-      parametres.group = new fabric.Group([parametres.bg, parametres.wp], {
-        title: "pane",
-        uid: "00000000-0000-0000-0000-000000000000",
-        left: 0,
-        top: 0,
+        dirty: false,
         selectable: false,
       });
 
       context.add(parametres.bg);
-      context.add(parametres.wp);
-      context.add(parametres.group);
     },
     setCurBuilding: function (building) {
       this.curBuilding = building;
@@ -284,14 +380,18 @@ export default {
       var fb = this.context;
       var p = this.parametres;
       var bg = p.bg;
+
       var floorImg = new Image();
       floorImg.src = floor.img;
 
-      bg._objects = [];
-
       floorImg.onload = function () {
-        var i = new fabric.Image(floorImg, {
-          name: "bg_i",
+        for (let obj in bg._objects) {
+          bg.remove(bg._objects[obj]);
+        }
+
+        var i = new fabric.Image(floorImg);
+        i.set({
+          name: "bg_i" + floor.name,
           originX: "center",
           originY: "center",
           scaleX:
@@ -303,13 +403,13 @@ export default {
               ? p.x / floorImg.width
               : p.y / floorImg.height,
         });
-
         bg.add(i);
+        bg.bringToFront(i);
+        console.log(bg._objects);
       };
 
       fb.requestRenderAll();
     },
-    
   },
 
   watch: {},
@@ -384,5 +484,13 @@ export default {
 }
 .navbar-collapse-right-to-left.show {
   right: 0;
+}
+.btn-fab.btn {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  right: 20px;
+  bottom: 20px;
+  border-radius: 50%;
 }
 </style>
